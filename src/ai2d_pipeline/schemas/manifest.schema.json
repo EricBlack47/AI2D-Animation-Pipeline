@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI2D Animation Manifest",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "character",
+    "action",
+    "fps",
+    "frameCount",
+    "loop",
+    "playbackSpeed",
+    "hold",
+    "rootMotion",
+    "frameFiles"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "character": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fps": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "frameCount": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "loop": {
+      "type": "boolean"
+    },
+    "playbackSpeed": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "hold": {
+      "type": "object",
+      "required": ["mode", "duration"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["none", "hold", "holdLoop"]
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "rootMotion": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "frameFiles": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false
+}

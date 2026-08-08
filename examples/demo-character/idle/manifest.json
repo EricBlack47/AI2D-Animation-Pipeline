@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "character": "demo-character",
+  "action": "idle",
+  "fps": 24.0,
+  "frameCount": 8,
+  "loop": false,
+  "playbackSpeed": 1.0,
+  "hold": {
+    "mode": "none",
+    "duration": 0.0
+  },
+  "rootMotion": {
+    "enabled": false
+  },
+  "frameFiles": [
+    "idle_0001.png",
+    "idle_0002.png",
+    "idle_0003.png",
+    "idle_0004.png",
+    "idle_0005.png",
+    "idle_0006.png",
+    "idle_0007.png",
+    "idle_0008.png"
+  ]
+}

@@ -1,0 +1,44 @@
+# Environment / tools
+.env
+.env.*
+*.key
+*.pem
+credentials*
+secrets*
+__pycache__/
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Local work artifacts
+.dev-notes/
+outputs/
+output/
+inputs/
+workspaces/
+tmp/
+.tmp_demo/
+.tmp_ci/
+
+# Media (zero-media policy in OSS)
+*.mp4
+*.mov
+*.avi
+*.wav
+*.ogg
+*.mp3
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+
+# Unity
+Library/
+Temp/
+Obj/
+Logs/
+UserSettings/

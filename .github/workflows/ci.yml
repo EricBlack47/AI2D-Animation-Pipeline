@@ -1,0 +1,65 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y ffmpeg
+      - name: Python package smoke
+        run: |
+          python -m ai2d_pipeline.cli --help
+          python -m ai2d_pipeline.cli doctor
+          python -m ai2d_pipeline.cli validate --help
+          python -m ai2d_pipeline.cli extract --help
+          python -m ai2d_pipeline.cli manifest --help
+      - name: Run tests
+        run: |
+          python -m pytest -q
+      - name: JSON Schema validation
+        run: |
+          python -m jsonschema -i examples/demo_character_manifest.example.json src/ai2d_pipeline/schemas/manifest.schema.json
+          mkdir -p .tmp_ci
+          cat > .tmp_ci/invalid_manifest.json <<'JSON'
+          {"schemaVersion":1}
+          JSON
+          if python -m ai2d_pipeline.cli validate .tmp_ci/invalid_manifest.json; then
+            echo "invalid manifest unexpectedly passed"
+            exit 1
+          fi
+      - name: Generate demo assets
+        run: |
+          python tools/generate_demo_assets.py --output .tmp_ci
+      - name: Demo validation
+        run: |
+          python -m ai2d_pipeline.cli validate .tmp_ci/idle
+          python -m ai2d_pipeline.cli manifest .tmp_ci/idle --character demo-character --action idle --fps 32 --output .tmp_ci/idle/manifest.json
+          python -m ai2d_pipeline.cli validate .tmp_ci/idle/manifest.json
+      - name: README smoke commands
+        run: |
+          python -m ai2d_pipeline.cli manifest .tmp_ci/idle --character demo-character --action idle --fps 32 --output .tmp_ci/idle/manifest.json
+          python -m ai2d_pipeline.cli validate .tmp_ci/idle
+          if python -m ai2d_pipeline.cli extract missing.mp4 .tmp_ci/extracted --fps source; then
+            echo "missing input unexpectedly extracted"
+            exit 1
+          fi
+      - name: FFmpeg preflight
+        run: |
+          ffmpeg -version
+          ffprobe -version
+          ffprobe -show_streams .tmp_ci/idle/idle_0001.png >/dev/null

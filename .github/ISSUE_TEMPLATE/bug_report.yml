@@ -1,0 +1,22 @@
+name: Bug Report
+description: Report a bug in the OSS animation pipeline
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened and what did you expect?
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / output
+      description: Paste command outputs and traceback here.
+      required: true

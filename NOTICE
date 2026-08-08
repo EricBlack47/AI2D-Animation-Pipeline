@@ -1,0 +1,8 @@
+AI2D Animation Pipeline
+Copyright (c) 2026
+
+This software is distributed under the Apache License 2.0. See LICENSE.
+
+This repository intentionally includes only source code and OSS-friendly
+demonstration assets. Runtime dependencies are installed from package indexes
+and are not redistributed in this repository.
